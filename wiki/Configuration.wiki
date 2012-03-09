@@ -12,3 +12,15 @@ Download the following plugins
   * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard-diff.nbm&can=2&q= Vcs Diff Plugin]
   * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard-svndiff.nbm&can=2&q= SVN Diff plugin]
   * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard.nbm&can=2&q= ReviewBoard plugin]
+
+http://code.google.com/p/nb-reviewboard/source/browse/wiki/images/tools.png
+
+http://code.google.com/p/nb-reviewboard/source/browse/wiki/images/downloaded.png
+
+http://code.google.com/p/nb-reviewboard/source/browse/wiki/images/config.png
+
+http://code.google.com/p/nb-reviewboard/source/browse/wiki/images/select%20files.png
+
+http://code.google.com/p/nb-reviewboard/source/browse/wiki/images/fill%20properties.png
+
+http://code.google.com/p/nb-reviewboard/source/browse/wiki/images/finish.png
