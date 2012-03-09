@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.smartdevelop.reviewboard
+OpenIDE-Module-Localizing-Bundle: org/smartdevelop/reviewboard/Bundle.properties
+OpenIDE-Module-Specification-Version: 1.0
+
