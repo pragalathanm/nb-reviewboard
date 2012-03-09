@@ -1,5 +1,5 @@
+#summary How to configure and use this plugin?
 #labels Phase-Deploy
-How to configure and use this plugin?
 
 = Introduction =
 
