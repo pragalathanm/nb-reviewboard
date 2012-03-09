@@ -1,0 +1,4 @@
+#summary Frequently Asked Questions
+
+* What version of NetBeans currently supported?
+   NetBeans 7.1
