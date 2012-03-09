@@ -1,0 +1,13 @@
+How to configure and use this plugin?
+
+= Introduction =
+
+The following document describes how you can configure and use this plugin.
+
+
+= Details =
+
+Download the following plugins
+  * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard-diff.nbm&can=2&q= Vcs Diff Plugin]
+  * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard-svndiff.nbm&can=2&q= SVN Diff plugin]
+  * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard.nbm&can=2&q= ReviewBoard plugin]
