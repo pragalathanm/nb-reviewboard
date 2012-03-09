@@ -1,5 +1,5 @@
+#summary Installation and Configuration Instruction
 #labels Phase-Deploy
-
 = Introduction =
 
 The following document describes how you can configure and use this plugin.
