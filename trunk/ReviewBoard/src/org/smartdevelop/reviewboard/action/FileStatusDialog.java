@@ -23,6 +23,8 @@ import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.*;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.explorer.ExplorerManager;
 import org.openide.explorer.view.OutlineView;
 import org.openide.nodes.*;
@@ -416,13 +418,18 @@ public class FileStatusDialog extends JDialog implements ExplorerManager.Provide
                 List<JTextComponent> groups = new ArrayList<JTextComponent>();
                 List<JTextComponent> reviewers = new ArrayList<JTextComponent>();
                 List<JTextComponent> descriptions = new ArrayList<JTextComponent>();
-                for (String repository : filesMap.keySet()) {
-                    ReviewRequestPanel panel = new ReviewRequestPanel(filesMap.get(repository));
+                for (String repositoryPath : filesMap.keySet()) {
+                    ReviewRequestPanel panel = new ReviewRequestPanel(filesMap.get(repositoryPath));
                     summaries.add(panel.getSummaryComponent());
                     groups.add(panel.getGroupComponent());
                     reviewers.add(panel.getReviewerComponent());
                     descriptions.add(panel.getDescriptionComponent());
-                    tab.add(repositoryMap.get(repository).getName(), panel);
+                    Repository repository = repositoryMap.get(repositoryPath);
+                    if (repository == null) {
+                        DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("No repository found for path: " + repositoryPath + "\nPlease check the settings in Tools->Options->ReviewBoard", NotifyDescriptor.ERROR_MESSAGE));
+                        return;
+                    }
+                    tab.add(repository.getName(), panel);
                 }
                 bindingGroups.add(bind(summaries));
                 bindingGroups.add(bind(groups));
