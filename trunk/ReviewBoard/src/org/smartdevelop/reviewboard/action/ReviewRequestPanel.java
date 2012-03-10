@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.prefs.Preferences;
 import javax.swing.DefaultListModel;
 import javax.swing.text.JTextComponent;
+import org.netbeans.modules.versioning.util.UndoRedoSupport;
 import org.smartdevelop.reviewboard.client.response.ReviewRequest;
 import org.smartdevelop.reviewboard.diff.VcsFile;
 import org.smartdevelop.reviewboard.options.RBConfigurationPanel;
@@ -18,6 +19,8 @@ public class ReviewRequestPanel extends javax.swing.JPanel {
     private List<VcsFile> files;
     private ReviewRequest reviewRequest;
     private String diff;
+    private UndoRedoSupport um1;
+    private UndoRedoSupport um2;
 
     /**
      * Creates new form ReviewRequestPanel
@@ -36,6 +39,26 @@ public class ReviewRequestPanel extends javax.swing.JPanel {
             model.addElement(file.getFile());
         }
         changedFilesList.setModel(model);
+    }
+
+    @Override
+    public void addNotify() {
+        super.addNotify();
+        um1 = UndoRedoSupport.register(summaryTextField);
+        um2 = UndoRedoSupport.register(descriptionTextPane);
+    }
+
+    @Override
+    public void removeNotify() {
+        if (um1 != null) {
+            um1.unregister();
+            um1 = null;
+        }
+        if (um2 != null) {
+            um2.unregister();
+            um2 = null;
+        }
+        super.removeNotify();
     }
 
     public void setDiff(String diff) {
