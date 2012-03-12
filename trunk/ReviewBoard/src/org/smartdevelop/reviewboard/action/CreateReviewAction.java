@@ -2,9 +2,12 @@ package org.smartdevelop.reviewboard.action;
 
 import java.io.File;
 import java.text.MessageFormat;
+import java.util.Collections;
+import java.util.Map;
 import java.util.MissingResourceException;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectUtils;
+import org.netbeans.modules.versioning.util.TableSorter;
 import org.netbeans.modules.versioning.util.Utils;
 import org.netbeans.spi.diff.DiffProvider;
 import org.openide.DialogDisplayer;
@@ -92,8 +95,13 @@ public final class CreateReviewAction extends NodeAction {
         }
         try {
             VcsFile[] files = diffManager.getModifiedFiles(nodes);
-            FileStatusDialog dialog = new FileStatusDialog(files, getRunningName(nodes));
-            dialog.setVisible(true);
+            FileStatusPanel panel = new FileStatusPanel(getRunningName(nodes));
+            Map<String, Integer> sortingStatus = Collections.singletonMap(ReviewRequestTableModel.COLUMN_NAME_PATH, TableSorter.ASCENDING);
+            ReviewRequestTable data = new ReviewRequestTable(panel.filesLabel, ReviewRequestTable.COMMIT_COLUMNS, sortingStatus);
+            data.setNodes(files);
+            panel.setCommitTable(data);
+            data.setCommitPanel(panel);
+            panel.showCreateRequestDialog();
         } catch (Exception ex) {
             Exceptions.printStackTrace(ex);
         }
