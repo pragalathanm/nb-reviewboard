@@ -6,6 +6,7 @@ package org.smartdevelop.reviewboard.diff;
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.JPanel;
 
 /**
  * A wrapper for version-ed file. Along with the file, it also stores the VCS
@@ -13,11 +14,14 @@ import java.util.regex.Pattern;
  *
  * @author Pragalathan M
  */
-public class VcsFile {
+public abstract class VcsFile {
 
     private static final Pattern p = Pattern.compile("[(http)|(https)|(svn+ssh)]://([a-zA-Z]*@)?(.*)");
-    private File file;
-    private String repository;
+    protected File file;
+    protected String repository;
+    protected String status;// New/Modified
+    protected boolean selected = true;
+    protected String annotatedName;
 
     public VcsFile() {
     }
@@ -38,6 +42,30 @@ public class VcsFile {
             }
         }
         this.repository = repository;
+    }
+
+    public String getAnnotatedName() {
+        return annotatedName;
+    }
+
+    public void setAnnotatedName(String annotatedName) {
+        this.annotatedName = annotatedName;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     /**
@@ -84,4 +112,15 @@ public class VcsFile {
     public boolean isDirectory() {
         return file.isDirectory();
     }
+
+    public String getLocation() {
+        return file.getAbsolutePath();
+    }
+
+    /**
+     * Facilitates the version diff manager to provide diff panel.
+     *
+     * @return the diff panel.
+     */
+    public abstract JPanel createDiffPanel();
 }

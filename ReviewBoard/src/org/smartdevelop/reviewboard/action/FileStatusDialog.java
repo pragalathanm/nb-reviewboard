@@ -43,7 +43,9 @@ import org.smartdevelop.reviewboard.diff.VcsFile;
  * what file to submit for review.
  *
  * @author Pragalathan M
+ * @deprecated Use {@link FileStatusPanel} instead
  */
+@Deprecated
 public class FileStatusDialog extends JDialog implements ExplorerManager.Provider {
 
     private ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -354,7 +356,7 @@ public class FileStatusDialog extends JDialog implements ExplorerManager.Provide
                         .addComponent(nextButton)
                         .addPreferredGap(ComponentPlacement.RELATED)
                         .addComponent(cancelButton))
-                    .addComponent(reviewPanel, GroupLayout.DEFAULT_SIZE, 783, Short.MAX_VALUE))
+                    .addComponent(reviewPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -54,7 +54,11 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
         File[] files = SvnUtils.getModifiedFiles(getContext(nodes), FileInformation.STATUS_LOCAL_CHANGE);
         VcsFile[] modifiedFiles = new VcsFile[files.length];
         for (int i = 0; i < modifiedFiles.length; i++) {
-            modifiedFiles[i] = new VcsFile(files[i], SvnUtils.getRepositoryRootUrl(files[i]).toString());
+            VcsFile vcsFile = new SvnFile(files[i], SvnUtils.getRepositoryRootUrl(files[i]).toString());
+            FileInformation fileInformation = Subversion.getInstance().getStatusCache().getStatus(files[i]);
+            vcsFile.setStatus(fileInformation.getStatusText());
+            vcsFile.setAnnotatedName(Subversion.getInstance().getAnnotator().annotateNameHtml(files[i].getName(), fileInformation, null));
+            modifiedFiles[i] = vcsFile;
         }
         return modifiedFiles;
     }
