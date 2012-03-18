@@ -11,6 +11,7 @@ import org.netbeans.modules.diff.builtin.visualizer.TextDiffVisualizer;
 import org.netbeans.modules.proxy.Base64Encoder;
 import org.netbeans.modules.subversion.FileInformation;
 import org.netbeans.modules.subversion.Subversion;
+import org.netbeans.modules.subversion.client.SvnClient;
 import org.netbeans.modules.subversion.client.SvnClientExceptionHandler;
 import org.netbeans.modules.subversion.client.SvnProgressSupport;
 import org.netbeans.modules.subversion.ui.diff.DiffSetupSource;
@@ -32,7 +33,9 @@ import org.openide.util.lookup.ServiceProvider;
 import org.openide.windows.TopComponent;
 import org.smartdevelop.reviewboard.diff.DiffManager;
 import org.smartdevelop.reviewboard.diff.VcsFile;
+import org.tigris.subversion.svnclientadapter.ISVNInfo;
 import org.tigris.subversion.svnclientadapter.SVNClientException;
+import org.tigris.subversion.svnclientadapter.SVNRevision;
 
 /**
  * SVN diff manager to generate ReviewBoard compatible diff of source files.
@@ -204,7 +207,7 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
 
             exportedFiles = i;
             success = true;
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Subversion.LOG.log(Level.INFO, NbBundle.getMessage(ExportDiffAction.class, "BK3003"), ex);
         } finally {
             if (out != null) {
@@ -223,7 +226,7 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
     /**
      * Writes contextual diff into given stream.
      */
-    private void exportDiff(Setup setup, String relativePath, OutputStream out) throws IOException {
+    private void exportDiff(Setup setup, String relativePath, OutputStream out) throws IOException, SVNClientException {
         // setup.initSources();
         // hack to call init();
         DiffStreamSource firstSource = (DiffStreamSource) setup.getFirstSource();
@@ -282,7 +285,7 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
                 if (r2 == null) {
                     r2 = new StringReader(""); // NOI18N
                 }
-                String lastRevision = Subversion.getInstance().getStatusCache().getLabelsCache().getLabelInfo(file, false).getLastRevisionString();
+                String lastRevision = getLastRevision(file);
                 String firstTitle = lastRevision.isEmpty() ? "(revision 0)" : "(revision " + lastRevision + ")";
                 String secondTitle = lastRevision.isEmpty() ? "(revision 0)" : "(working copy)";
                 // ensure more than one space (or a tab) here, for reviewboard to work.
@@ -319,6 +322,13 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
                 }
             }
         }
+    }
+
+    private String getLastRevision(File file) throws SVNClientException {
+        SvnClient client = Subversion.getInstance().getClient(false);
+        ISVNInfo info = client.getInfoFromWorkingCopy(file);
+        SVNRevision rev = info.getRevision();
+        return rev != null && !"-1".equals(rev.toString()) ? rev.toString() : ""; //NOI18N
     }
 
     /**
