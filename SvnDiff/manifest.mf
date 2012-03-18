@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
-OpenIDE-Module: org.smartdevelop.reviewboard.svndiff/1
+OpenIDE-Module: org.smartdevelop.reviewboard.svndiff/4
 OpenIDE-Module-Implementation-Version: 1
 OpenIDE-Module-Localizing-Bundle: org/smartdevelop/reviewboard/svndiff/Bundle.properties
 OpenIDE-Module-Provides: org.smartdevelop.reviewboard.diff.DiffManager
