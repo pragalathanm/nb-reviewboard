@@ -331,13 +331,16 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
      */
     private File getCommonParent(File[] files) throws SVNClientException {
         File root = files[0];
-        String repositoryPath = SvnUtils.getRepositoryPath(root);
-        String filePath = root.getAbsolutePath();
-        if (filePath.endsWith(repositoryPath)) {
-            File file = new File(filePath.substring(0, filePath.length() - repositoryPath.length()));
-            return file;
+        try {
+            String repositoryPath = SvnUtils.getRepositoryPath(root);
+            String filePath = root.getCanonicalPath();
+            if (filePath.endsWith(repositoryPath)) {
+                File file = new File(filePath.substring(0, filePath.length() - repositoryPath.length()));
+                return file;
+            }
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
         }
-
         return root;
     }
 
