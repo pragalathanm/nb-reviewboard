@@ -189,8 +189,8 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
                 progress.setDisplayName(file.getName());
 
                 String index = "Index: ";   // NOI18N
-                String rootPath = root.getAbsolutePath();
-                String filePath = file.getAbsolutePath();
+                String rootPath = root.getCanonicalPath();
+                String filePath = file.getCanonicalPath();
                 String relativePath = filePath;
                 if (filePath.startsWith(rootPath)) {
                     relativePath = filePath.substring(rootPath.length() + 1).replace(File.separatorChar, '/');
