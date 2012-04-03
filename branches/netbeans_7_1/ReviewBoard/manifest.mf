@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 OpenIDE-Module: org.smartdevelop.reviewboard/5
 OpenIDE-Module-Localizing-Bundle: org/smartdevelop/reviewboard/Bundle.properties
-OpenIDE-Module-Specification-Version: 5.1
+OpenIDE-Module-Specification-Version: 5.3
 OpenIDE-Module-Requires: org.smartdevelop.reviewboard.diff.DiffManager
