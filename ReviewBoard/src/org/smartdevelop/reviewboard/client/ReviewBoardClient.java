@@ -84,7 +84,7 @@ public class ReviewBoardClient {
      * @return the map of repositoryName-{@code Repository}
      * @throws IOException
      */
-    public Map<String, Repository> getRepositories() throws IOException {
+    public Map<String, Repository> getRepositories() throws IOException, ParseException {
         if (baseUrl == null) {
             Preferences node = Preferences.userNodeForPackage(RBConfigurationPanel.class);
             baseUrl = node.get("reviewboard.url", null);
@@ -92,13 +92,19 @@ public class ReviewBoardClient {
                 DialogDisplayer.getDefault().notify(new NotifyDescriptor.Message("Please configure Review Board in Tools->Options->ReviewBoard before creating any reviews", NotifyDescriptor.ERROR_MESSAGE));
             }
         }
+        if (!authenticated) {
+            Preferences node = Preferences.userNodeForPackage(RBConfigurationPanel.class);
+            authenticate(node.get("reviewboard.url", ""), node.get("username", ""), node.get("password", ""));
+        }
         Map<String, Repository> map = new HashMap<String, Repository>();
-        HttpGet get = new HttpGet(baseUrl + "/api/repositories/");
-        HttpResponse response = httpClient.execute(get);
-        HttpEntity entity = response.getEntity();
-        RepositoryResponse repositoryResponse = mapper.readValue(entity.getContent(), RepositoryResponse.class);
-        for (Repository repository : repositoryResponse.getRepositories()) {
-            map.put(repository.getPath(), repository);
+        if (authenticated) {
+            HttpGet get = new HttpGet(baseUrl + "/api/repositories/");
+            HttpResponse response = httpClient.execute(get);
+            HttpEntity entity = response.getEntity();
+            RepositoryResponse repositoryResponse = mapper.readValue(entity.getContent(), RepositoryResponse.class);
+            for (Repository repository : repositoryResponse.getRepositories()) {
+                map.put(repository.getPath(), repository);
+            }
         }
         return map;
     }
