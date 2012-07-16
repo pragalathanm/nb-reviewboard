@@ -62,4 +62,13 @@ public interface DiffManager {
      * @return the array of cached {@code File}s
      */
     File[] getCachedContextFiles(Node[] nodes);
+
+    /**
+     * Determines whether the current VCS DiffManger manages all the files in
+     * the context.
+     *
+     * @param nodes the nodes representing the current context
+     * @return true, if the DiffManger manages the context, false otherwise
+     */
+    boolean owns(Node[] nodes);
 }
