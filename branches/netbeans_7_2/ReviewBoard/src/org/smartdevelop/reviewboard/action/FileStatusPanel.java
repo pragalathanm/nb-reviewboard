@@ -15,9 +15,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.prefs.Preferences;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.*;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 import org.jdesktop.beansbinding.*;
@@ -28,7 +28,6 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.awt.TabbedPaneFactory;
 import org.openide.util.Exceptions;
-import org.openide.util.Lookup;
 import org.openide.util.NbBundle;
 import org.smartdevelop.reviewboard.client.ReviewBoardClient;
 import org.smartdevelop.reviewboard.client.response.Repository;
@@ -49,17 +48,19 @@ public class FileStatusPanel extends AutoResizingPanel implements PropertyChange
     private Future<?> runningTask;
     private ExecutorService executor = Executors.newSingleThreadExecutor();
     private String runningName;
+    private DiffManager diffManager;
 
     /**
      * Creates new form FileStatusPanel
      */
-    public FileStatusPanel(String runningName) {
+    public FileStatusPanel(String runningName, DiffManager diffManager) {
         initComponents();
         filesPanel.setLayout(new BoxLayout(filesPanel, BoxLayout.Y_AXIS));
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         panel.add(filesLabel);
         filesPanel.add(panel);
         this.runningName = runningName;
+        this.diffManager = diffManager;
     }
 
     void setCommitTable(ReviewRequestTable commitTable) {
@@ -164,7 +165,6 @@ public class FileStatusPanel extends AutoResizingPanel implements PropertyChange
             protected Object doInBackground() throws Exception {
                 try {
                     ReviewBoardClient client = ReviewBoardClient.INSTANCE;
-                    DiffManager diffManager = Lookup.getDefault().lookup(DiffManager.class);
                     for (ReviewRequestPanel panel : panels) {
                         ByteArrayOutputStream stream = new ByteArrayOutputStream();
                         List<VcsFile> vcsFiles = panel.getFiles();
