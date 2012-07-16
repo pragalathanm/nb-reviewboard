@@ -1,0 +1,5 @@
+Manifest-Version: 1.0
+OpenIDE-Module: org.smartdevelop.reviewboard.gitdiff/7
+OpenIDE-Module-Implementation-Version: 1
+OpenIDE-Module-Localizing-Bundle: org/smartdevelop/reviewboard/gitdiff/Bundle.properties
+
