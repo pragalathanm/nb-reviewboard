@@ -11,6 +11,7 @@ import org.netbeans.modules.diff.builtin.visualizer.TextDiffVisualizer;
 import org.netbeans.modules.proxy.Base64Encoder;
 import org.netbeans.modules.subversion.FileInformation;
 import org.netbeans.modules.subversion.Subversion;
+import org.netbeans.modules.subversion.SubversionVCS;
 import org.netbeans.modules.subversion.client.SvnClientExceptionHandler;
 import org.netbeans.modules.subversion.client.SvnProgressSupport;
 import org.netbeans.modules.subversion.ui.diff.DiffSetupSource;
@@ -18,6 +19,8 @@ import org.netbeans.modules.subversion.ui.diff.DiffStreamSource;
 import org.netbeans.modules.subversion.ui.diff.ExportDiffAction;
 import org.netbeans.modules.subversion.ui.diff.Setup;
 import org.netbeans.modules.subversion.util.SvnUtils;
+import org.netbeans.modules.versioning.spi.VCSContext;
+import org.netbeans.modules.versioning.spi.VersioningSupport;
 import org.netbeans.modules.versioning.util.Utils;
 import org.netbeans.spi.diff.DiffProvider;
 import org.openide.DialogDisplayer;
@@ -81,11 +84,11 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
      */
     @Override
     public boolean hasAnyModifiedFile(Node[] nodes) {
-        TopComponent activated = TopComponent.getRegistry().getActivated();
-        if (activated instanceof DiffSetupSource) {
-            return ((DiffSetupSource) activated).getSetups().isEmpty();
-        }
-        return !Subversion.getInstance().getStatusCache().containsFiles(getContext(nodes), FileInformation.STATUS_LOCAL_CHANGE, true);
+//        TopComponent activated = TopComponent.getRegistry().getActivated();
+//        if (activated instanceof DiffSetupSource) {
+//            return !((DiffSetupSource) activated).getSetups().isEmpty();
+//        }
+        return Subversion.getInstance().getStatusCache().containsFiles(getContext(nodes), FileInformation.STATUS_LOCAL_CHANGE, false);
     }
 
     /**
@@ -122,8 +125,8 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
             setups = new ArrayList<Setup>(((DiffSetupSource) activated).getSetups());
 
             List<File> setupFiles = new ArrayList<File>(setups.size());
-            for (Iterator i = setups.iterator(); i.hasNext();) {
-                Setup setup = (Setup) i.next();
+            for (Iterator<Setup> i = setups.iterator(); i.hasNext();) {
+                Setup setup = i.next();
                 setupFiles.add(setup.getBaseFile());
             }
             root = getCommonParent(setupFiles.toArray(new File[setupFiles.size()]));
@@ -366,5 +369,15 @@ public class SvnDiffManager extends SvnContext implements DiffManager {
     @Override
     public File[] getCachedContextFiles(Node[] nodes) {
         return super.getCachedContext(nodes).getFiles();
+    }
+
+    @Override
+    public boolean owns(Node[] nodes) {
+        for (File file : VCSContext.forNodes(nodes).getRootFiles()) {
+            if (!(VersioningSupport.getOwner(file) instanceof SubversionVCS)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
