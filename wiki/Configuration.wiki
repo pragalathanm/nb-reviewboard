@@ -36,3 +36,9 @@ http://nb-reviewboard.googlecode.com/svn/wiki/images/fill%20properties.png
   * Optionally select _Publish Requests_ to publish your requests automatically
   * Click _Finish_ to create and/or publish the request
 http://nb-reviewboard.googlecode.com/svn/wiki/images/finish.png
+
+= How to view the diff of modified files? =
+
+  * Right click any modified file and choose _View diff_
+http://nb-reviewboard.googlecode.com/svn/wiki/images/diff%20view2.png
+http://nb-reviewboard.googlecode.com/svn/wiki/images/diff%20view1.png
