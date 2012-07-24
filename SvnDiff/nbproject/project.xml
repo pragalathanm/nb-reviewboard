@@ -110,8 +110,8 @@
                     <build-prerequisite/>
                     <compile-dependency/>
                     <run-dependency>
-                        <release-version>6</release-version>
-                        <specification-version>6.1</specification-version>
+                        <release-version>7</release-version>
+                        <specification-version>7.2</specification-version>
                     </run-dependency>
                 </dependency>
             </module-dependencies>
