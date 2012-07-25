@@ -1,6 +1,7 @@
 #summary Frequently Asked Questions
 
 * What version of NetBeans currently supported?
+   * NetBeans 7.2
    * NetBeans 7.1.1
    * NetBeans 7.1
    * NetBeans 7.0.1
