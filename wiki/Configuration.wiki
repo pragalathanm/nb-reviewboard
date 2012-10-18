@@ -7,7 +7,7 @@ The following document describes how you can configure and use this plugin.
 
 = Installation =
 
-  * Download the zip file based on your netbeans version
+  * [http://code.google.com/p/nb-reviewboard/downloads/list Download] the zip file based on your netbeans version
   * Open your NetBeans IDE and go to _Tools->Plugins_
 http://nb-reviewboard.googlecode.com/svn/wiki/images/tools.png
   * Navigate to _Downloaded_ tab
