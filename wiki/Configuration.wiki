@@ -7,10 +7,7 @@ The following document describes how you can configure and use this plugin.
 
 = Installation =
 
-Download the following plugins
-  * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard-diff.nbm&can=2&q= Vcs Diff Plugin]
-  * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard-svndiff.nbm&can=2&q= SVN Diff plugin]
-  * [http://code.google.com/p/nb-reviewboard/downloads/detail?name=org-smartdevelop-reviewboard.nbm&can=2&q= ReviewBoard plugin]
+  * Download the zip file based on your netbeans version
   * Open your NetBeans IDE and go to _Tools->Plugins_
 http://nb-reviewboard.googlecode.com/svn/wiki/images/tools.png
   * Navigate to _Downloaded_ tab
