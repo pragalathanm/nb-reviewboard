@@ -29,6 +29,7 @@ import org.openide.util.NbBundle.Messages;
 import org.openide.util.actions.NodeAction;
 import org.openide.windows.TopComponent;
 import org.smartdevelop.reviewboard.diff.DiffManager;
+import org.smartdevelop.reviewboard.diff.DiffManagerFactory;
 import org.smartdevelop.reviewboard.diff.VcsFile;
 
 /**
@@ -51,7 +52,7 @@ displayName = "#CTL_CreateReviewAction")
     "CTL_CreateReviewAction_Context_Multiple=Create Review Request"})
 public final class CreateReviewAction extends NodeAction {
 
-    DiffManager diffManager = Lookup.getDefault().lookup(DiffManager.class);
+    private DiffManager diffManager;
 
     public CreateReviewAction() {
         putValue("noIconInMenu", Boolean.TRUE); // NOI18N
@@ -71,7 +72,11 @@ public final class CreateReviewAction extends NodeAction {
      */
     @Override
     public boolean enable(Node[] nodes) {
-        return diffManager.enableAction(nodes) && Lookup.getDefault().lookup(DiffProvider.class) != null;
+        if (Lookup.getDefault().lookup(DiffProvider.class) == null) {
+            return false;
+        }
+        diffManager = DiffManagerFactory.getInsance().getDiffManager(nodes);
+        return diffManager != null && diffManager.enableAction(nodes);
     }
 
     /**
@@ -87,7 +92,7 @@ public final class CreateReviewAction extends NodeAction {
             return;
         }
 
-        boolean noop = diffManager.hasAnyModifiedFile(nodes);
+        boolean noop = !diffManager.hasAnyModifiedFile(nodes);
         if (noop) {
             NotifyDescriptor msg = new NotifyDescriptor.Message(NbBundle.getMessage(CreateReviewAction.class, "BK3001"), NotifyDescriptor.INFORMATION_MESSAGE);
             DialogDisplayer.getDefault().notify(msg);
@@ -95,7 +100,7 @@ public final class CreateReviewAction extends NodeAction {
         }
         try {
             VcsFile[] files = diffManager.getModifiedFiles(nodes);
-            FileStatusPanel panel = new FileStatusPanel(getRunningName(nodes));
+            FileStatusPanel panel = new FileStatusPanel(getRunningName(nodes), diffManager);
             Map<String, Integer> sortingStatus = Collections.singletonMap(ReviewRequestTableModel.COLUMN_NAME_PATH, TableSorter.ASCENDING);
             ReviewRequestTable data = new ReviewRequestTable(panel.filesLabel, ReviewRequestTable.COMMIT_COLUMNS, sortingStatus);
             data.setNodes(files);
